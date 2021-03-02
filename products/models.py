@@ -5,6 +5,7 @@ from django.http import Http404
 from .utils import unique_slug_generator
 from django.db.models.signals import pre_save
 from django.urls import reverse
+from django.db.models import Q
 # Create your models here.
 
 
@@ -29,7 +30,10 @@ class ProductManager(models.Manager):
         return ProductQuerySet(self.model, using=self._db)
 
     def all(self):
-        return self.get_queryset().filter(active=True)
+        return self.get_queryset().active()
+
+    def search(self, query):
+        return self.get_queryset().active().search(query)
 
 
 class ProductQuerySet(models.query.QuerySet):
@@ -38,6 +42,10 @@ class ProductQuerySet(models.query.QuerySet):
 
     def active(self):
         return self.filter(active=True)
+
+    def search(self, query):
+        lookups = Q(title__icontains=query) | Q(description__icontains=query)
+        return self.filter(lookups).distinct()
 
 
 class Product(models.Model):
@@ -56,9 +64,9 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse("products:slug_detail", kwargs={"slug": self.slug})
-# @receiver(presave, sender=mdoels.Product)
 
 
+# @receiver(presave, sender=models.Product)
 def product_pre_save_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = unique_slug_generator(instance, new_slug=None)
