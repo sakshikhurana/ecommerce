@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from products.views import home_page, about_page
 from django.contrib.auth.views import LogoutView
+from cart.views import cart_home
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,6 +31,7 @@ urlpatterns = [
     path('', home_page, name='home'),
     path('about/', about_page, name='about'),
     path('search', include('search.urls', namespace='search')),
+    path('cart/', include('carts.urls', namespace='cart'))
 ]
 
 if settings.DEBUG:
