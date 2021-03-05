@@ -66,6 +66,10 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse("products:slug_detail", kwargs={"slug": self.slug})
 
+    @property
+    def name(self):
+        return self.title
+
 
 # @receiver(presave, sender=models.Product)
 def product_pre_save_receiver(sender, instance, *args, **kwargs):

@@ -4,6 +4,7 @@ from django.views.generic import ListView, DetailView, CreateView
 from .models import Product
 from .forms import ProductForm
 from django.http import Http404
+from cart.models import Cart
 
 
 class ProductListView(ListView):
@@ -61,6 +62,12 @@ class ProductSlugDetailView(DetailView):
         except:
             raise Http404("Exception raised")
         return instance
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        cart_obj, new_obj = Cart.objects.new_or_get(self.request)
+        context['cart'] = cart_obj
+        return context
 
 
 def home_page(request):

@@ -12,14 +12,23 @@ def cart_create(request):
 
 def cart_home(request):
     cart_obj, new_obj = Cart.objects.new_or_get(request)
-    return render(request, 'carts/home.html', {})
+    request.session['cart_items'] = cart_obj.products.count()
+    return render(request, 'cart/home.html', {'cart': cart_obj})
 
 
 def cart_update(request):
-    product_id = 1
-    product_obj = Product.objects.get(id=product_id)
-    if product_obj in cart_obj.products.all():
-        cart_obj.products.remove(product_obj)
-    else:
-        cart_obj.products.add(product_obj)
+    print(request.POST)
+    product_id = request.POST.get('product_id')
+    if product_id:
+        try:
+            product_obj = Product.objects.get(id=product_id)
+        except Product.DoesNotExist:
+            print('Product is out of stock')
+            return redirect('cart:home')
+
+        cart_obj, _ = Cart.objects.new_or_get(request)
+        if product_obj in cart_obj.products.all():
+            cart_obj.products.remove(product_obj)
+        else:
+            cart_obj.products.add(product_obj)
     return redirect('cart:home')
