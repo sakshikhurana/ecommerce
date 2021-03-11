@@ -27,7 +27,7 @@ SECRET_KEY = ')e3%rv)*@zo-7-$66fcos1*!15x(*ip5e$5v3fjlse3art-&^$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -39,12 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users',
     'products',
     'search',
     'tags',
     'cart',
-    'order'
+    'order',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -131,4 +131,4 @@ STATICFILES_DIRS = [BASE_DIR/'static_my_proj']
 
 STATIC_ROOT = BASE_DIR.parent/'static_cdn/static_root'
 MEDIA_ROOT = BASE_DIR.parent/'static_cdn/media_root'
-LOGOUT_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/login'
