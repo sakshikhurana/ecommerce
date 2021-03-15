@@ -21,6 +21,7 @@ from django.conf import settings
 from products.views import home_page, about_page
 from django.contrib.auth.views import LogoutView
 from cart.views import cart_home
+from addresses.views import checkout_address_create_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,6 +34,7 @@ urlpatterns = [
     path('search', include('search.urls', namespace='search')),
     path('cart/', include('cart.urls', namespace='cart')),
     path('register/guest/', views.guest_register_page, name='guest_register'),
+    path('checkout/address/create', checkout_address_create_view, name='checkout_address_create'),
 ]
 
 if settings.DEBUG:
