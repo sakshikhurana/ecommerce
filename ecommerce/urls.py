@@ -25,9 +25,9 @@ from addresses.views import checkout_address_create_view, checkout_address_reuse
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', views.login_page, name='login'),
+    path('login/', views.LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('register/', views.register_page, name='register'),
+    path('register/', views.RegisterView.as_view(), name='register'),
     path('products/', include('products.urls')),
     path('', home_page, name='home'),
     path('about/', about_page, name='about'),
