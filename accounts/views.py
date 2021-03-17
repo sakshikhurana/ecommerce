@@ -16,8 +16,6 @@ class LoginView(FormView):
     default_next = '/'
 
     def form_valid(self, form):
-        import pdb
-        pdb.set_trace()
         request = self.request
         next_ = request.GET.get('next')
         next_post = request.POST.get('next')
